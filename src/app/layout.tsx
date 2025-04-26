@@ -1,5 +1,6 @@
 import ogImage from '@/assets/2c4b183a-941b-4e8e-9004-fecec54b81c9.png'
 import { Navbar } from '@/components/navbar'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -49,6 +50,7 @@ export default function RootLayout({
       >
         <Navbar />
         <main className='min-h-[calc(100vh-4rem)]'>{children}</main>
+        <SpeedInsights />
       </body>
     </html>
   )
