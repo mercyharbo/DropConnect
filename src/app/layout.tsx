@@ -45,10 +45,10 @@ export default function RootLayout({
   return (
     <html lang='en' className='h-full'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900`}
       >
         <Navbar />
-        <main className='h-[calc(100vh-4rem)]'>{children}</main>
+        <main className='min-h-[calc(100vh-4rem)]'>{children}</main>
       </body>
     </html>
   )

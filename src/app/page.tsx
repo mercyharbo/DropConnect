@@ -57,7 +57,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className='h-full flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative z-10'>
+    <div className='min-h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative'>
       {/* Background image with overlay */}
       <div className='absolute inset-0 z-0'>
         <Image
@@ -72,7 +72,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className='relative z-10 flex-1 flex flex-col'>
-        <section className='flex-1 flex flex-col items-center justify-center px-4 text-center'>
+        <section className='flex-1 flex flex-col items-center justify-center px-4 text-center py-12 sm:py-20'>
           <motion.div
             className='max-w-4xl mx-auto space-y-6'
             variants={containerVariants}
