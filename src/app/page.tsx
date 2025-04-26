@@ -56,27 +56,6 @@ export default function HomePage() {
     },
   }
 
-  const scrollIndicatorVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 1.4,
-        duration: 0.6,
-      },
-    },
-    bounce: {
-      y: [0, -10, 0],
-      transition: {
-        y: {
-          repeat: Number.POSITIVE_INFINITY,
-          duration: 1.5,
-          ease: 'easeInOut',
-        },
-      },
-    },
-  }
-
   return (
     <div className='h-full flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative z-10'>
       {/* Background image with overlay */}
