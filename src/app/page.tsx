@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { Package, Store } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function HomePage() {
   // Animation variants
@@ -96,57 +97,61 @@ export default function HomePage() {
 
             {/* Action Cards */}
             <div className='grid sm:grid-cols-2 gap-6 mt-12 w-full max-w-2xl mx-auto'>
-              <motion.div
-                className='group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-1 shadow-lg'
-                variants={cardVariants}
-                custom={0}
-                initial='hidden'
-                animate='visible'
-                whileHover='hover'
-              >
+              <Link href='/riders' className='block'>
                 <motion.div
-                  className='absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 opacity-0'
-                  animate={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
-                  <Package className='h-12 w-12 mb-4 text-blue-300' />
-                  <h3 className='text-xl font-bold mb-2'>Find a Rider</h3>
-                  <p className='text-blue-100/70 mb-4 text-sm'>
-                    Quick delivery services at your fingertips
-                  </p>
-                  <Button className='bg-blue-600 hover:bg-blue-700 text-white w-full'>
-                    Get Started
-                  </Button>
-                </div>
-              </motion.div>
+                  className='group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-1 shadow-lg'
+                  variants={cardVariants}
+                  custom={0}
+                  initial='hidden'
+                  animate='visible'
+                  whileHover='hover'
+                >
+                  <motion.div
+                    className='absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 opacity-0'
+                    animate={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
+                    <Package className='h-12 w-12 mb-4 text-blue-300' />
+                    <h3 className='text-xl font-bold mb-2'>Find a Rider</h3>
+                    <p className='text-blue-100/70 mb-4 text-sm'>
+                      Quick delivery services at your fingertips
+                    </p>
+                    <Button className='bg-blue-600 hover:bg-blue-700 text-white w-full'>
+                      Get Started
+                    </Button>
+                  </div>
+                </motion.div>
+              </Link>
 
-              <motion.div
-                className='group relative overflow-hidden cursor-pointer rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-1 shadow-lg'
-                variants={cardVariants}
-                custom={1}
-                initial='hidden'
-                animate='visible'
-                whileHover='hover'
-              >
+              <Link href='/vendors' className='block'>
                 <motion.div
-                  className='absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-0'
-                  animate={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
-                  <Store className='h-12 w-12 mb-4 text-emerald-300' />
-                  <h3 className='text-xl font-bold mb-2'>Find a Vendor</h3>
-                  <p className='text-emerald-100/70 mb-4 text-sm'>
-                    Home services from trusted providers
-                  </p>
-                  <Button className='bg-emerald-600 hover:bg-emerald-700 text-white w-full'>
-                    Explore Services
-                  </Button>
-                </div>
-              </motion.div>
+                  className='group relative overflow-hidden cursor-pointer rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-1 shadow-lg'
+                  variants={cardVariants}
+                  custom={1}
+                  initial='hidden'
+                  animate='visible'
+                  whileHover='hover'
+                >
+                  <motion.div
+                    className='absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-0'
+                    animate={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
+                    <Store className='h-12 w-12 mb-4 text-emerald-300' />
+                    <h3 className='text-xl font-bold mb-2'>Find a Vendor</h3>
+                    <p className='text-emerald-100/70 mb-4 text-sm'>
+                      Home services from trusted providers
+                    </p>
+                    <Button className='bg-emerald-600 hover:bg-emerald-700 text-white w-full'>
+                      Explore Services
+                    </Button>
+                  </div>
+                </motion.div>
+              </Link>
             </div>
           </motion.div>
         </section>
