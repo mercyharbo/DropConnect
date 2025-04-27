@@ -1,8 +1,6 @@
-import backgroundImage from '@/assets/2c4b183a-941b-4e8e-9004-fecec54b81c9.png'
-import HeroSection from '@/components/riders/hero-section'
-import RidersGrid from '@/components/riders/riders-grid'
+import RiderDetails from '@/components/riders/rider-details'
 import { Metadata } from 'next'
-import Image from 'next/image'
+import { notFound } from 'next/navigation'
 
 interface Service {
   name: string
@@ -72,51 +70,48 @@ const mockRiders: Rider[] = [
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Find Riders | Drop Connect',
-  description:
-    'Connect with reliable delivery riders for all your delivery needs.',
-  keywords: [
-    'riders',
-    'delivery',
-    'courier',
-    'express delivery',
-    'package delivery',
-  ],
-  openGraph: {
-    title: 'Find Riders | Drop Connect',
-    description:
-      'Connect with reliable delivery riders for all your delivery needs.',
-    type: 'website',
-  },
+type Props = {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function RidersPage() {
-  return (
-    <div className='min-h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative'>
-      {/* Background image with overlay */}
-      <div className='absolute inset-0 z-0'>
-        <Image
-          src={backgroundImage}
-          alt='Delivery riders background'
-          fill
-          className='object-cover opacity-20'
-          priority
-        />
-        <div className='absolute inset-0 bg-gradient-to-br from-blue-900/40 to-emerald-900/40 mix-blend-multiply' />
-      </div>
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params
+  const rider = mockRiders.find((r) => r.id === id)
 
-      {/* Main Content */}
-      <main className='relative z-10 flex-1 flex flex-col'>
-        <HeroSection />
+  if (!rider) {
+    return {
+      title: 'Rider Not Found | Drop Connect',
+      description: 'The requested rider could not be found.',
+    }
+  }
 
-        {/* Riders Grid */}
-        <section className='py-8 px-4'>
-          <div className='max-w-7xl mx-auto'>
-            <RidersGrid riders={mockRiders} />
-          </div>
-        </section>
-      </main>
-    </div>
-  )
+  return {
+    title: `${rider.name} | Drop Connect`,
+    description: rider.description,
+    openGraph: {
+      title: `${rider.name} | Drop Connect`,
+      description: rider.description,
+      type: 'website',
+      images: [
+        {
+          url: rider.image,
+          width: 1200,
+          height: 630,
+          alt: rider.name,
+        },
+      ],
+    },
+  }
+}
+
+export default async function RiderPage({ params }: Props) {
+  const { id } = await params
+  const rider = mockRiders.find((r) => r.id === id)
+
+  if (!rider) {
+    notFound()
+  }
+
+  return <RiderDetails rider={rider} />
 }
