@@ -35,7 +35,7 @@ export default function VendorsGrid({ vendors }: VendorsGridProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className='group h-full bg-slate-800/50 rounded-xl overflow-hidden border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/10 cursor-pointer flex flex-col'
+            className='group h-full bg-slate-800/50 rounded-xl overflow-hidden border border-orange-500/20 hover:border-orange-500/40 transition-all duration-300 hover:border-4 hover:shadow-lg hover:shadow-orange-500/10 cursor-pointer flex flex-col'
           >
             <div className='p-6 flex flex-col gap-3'>
               {/* Vendor Image */}

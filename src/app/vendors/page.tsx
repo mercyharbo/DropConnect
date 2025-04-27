@@ -1,7 +1,14 @@
 import backgroundImage from '@/assets/2c4b183a-941b-4e8e-9004-fecec54b81c9.png'
+import { Pagination } from '@/components/ui/pagination'
 import VendorsContent from '@/components/vendors/vendors-content'
 import { Metadata } from 'next'
 import Image from 'next/image'
+
+interface MenuItem {
+  name: string
+  price?: string
+  description?: string
+}
 
 interface Vendor {
   id: string
@@ -13,11 +20,7 @@ interface Vendor {
   whatsapp: string
   priceRange?: 'budget' | 'mid' | 'premium'
   deliveryTime?: 'fast' | 'standard' | 'scheduled'
-  menu?: {
-    name: string
-    price?: string
-    description?: string
-  }[]
+  menu?: MenuItem[]
 }
 
 // Mock data - replace with your actual data source
@@ -252,29 +255,33 @@ const mockVendors: Vendor[] = [
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Find Trusted Vendors | Drop Connect',
-  description:
-    'Connect with trusted vendors in your area. Fresh food, groceries, and more delivered to your doorstep.',
-  keywords:
-    'vendors, food delivery, groceries, local vendors, delivery service, Lagos vendors',
-  openGraph: {
-    title: 'Find Trusted Vendors | Drop Connect',
-    description:
-      'Connect with trusted vendors in your area. Fresh food, groceries, and more delivered to your doorstep.',
-    type: 'website',
-    images: [
-      {
-        url: backgroundImage.src,
-        width: 1200,
-        height: 630,
-        alt: 'Drop Connect - Find Trusted Vendors',
-      },
-    ],
-  },
+const ITEMS_PER_PAGE = 6
+
+type Props = {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default function VendorsPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Vendors - Drop Connect',
+    description: 'Find and connect with local vendors for your delivery needs.',
+    keywords: ['vendors', 'delivery', 'local businesses', 'services'],
+    openGraph: {
+      title: 'Vendors - Drop Connect',
+      description:
+        'Find and connect with local vendors for your delivery needs.',
+    },
+  }
+}
+
+export default async function VendorsPage({ searchParams }: Props) {
+  const currentPage = Number((await searchParams).page) || 1
+  const totalPages = Math.ceil(mockVendors.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const currentVendors = mockVendors.slice(startIndex, endIndex)
+
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative'>
       {/* Background image with overlay */}
@@ -290,8 +297,9 @@ export default function VendorsPage() {
       </div>
 
       {/* Main Content */}
-      <main className='relative z-10 flex-1 flex flex-col'>
-        <VendorsContent initialVendors={mockVendors} />
+      <main className='relative z-10 flex-1 flex flex-col gap-8 py-8 px-4 max-w-7xl mx-auto'>
+        <VendorsContent vendors={currentVendors} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       </main>
     </div>
   )

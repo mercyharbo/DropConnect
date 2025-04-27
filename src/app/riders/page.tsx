@@ -1,6 +1,7 @@
 import backgroundImage from '@/assets/2c4b183a-941b-4e8e-9004-fecec54b81c9.png'
 import HeroSection from '@/components/riders/hero-section'
 import RidersGrid from '@/components/riders/riders-grid'
+import { Pagination } from '@/components/ui/pagination'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
@@ -72,26 +73,41 @@ const mockRiders: Rider[] = [
   },
 ]
 
-export const metadata: Metadata = {
-  title: 'Find Riders | Drop Connect',
-  description:
-    'Connect with reliable delivery riders for all your delivery needs.',
-  keywords: [
-    'riders',
-    'delivery',
-    'courier',
-    'express delivery',
-    'package delivery',
-  ],
-  openGraph: {
+const ITEMS_PER_PAGE = 6
+
+type Props = {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
     title: 'Find Riders | Drop Connect',
     description:
       'Connect with reliable delivery riders for all your delivery needs.',
-    type: 'website',
-  },
+    keywords: [
+      'riders',
+      'delivery',
+      'courier',
+      'express delivery',
+      'package delivery',
+    ],
+    openGraph: {
+      title: 'Find Riders | Drop Connect',
+      description:
+        'Connect with reliable delivery riders for all your delivery needs.',
+      type: 'website',
+    },
+  }
 }
 
-export default function RidersPage() {
+export default async function RidersPage({ searchParams }: Props) {
+  const currentPage = Number((await searchParams).page) || 1
+  const totalPages = Math.ceil(mockRiders.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const currentRiders = mockRiders.slice(startIndex, endIndex)
+
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative'>
       {/* Background image with overlay */}
@@ -111,10 +127,9 @@ export default function RidersPage() {
         <HeroSection />
 
         {/* Riders Grid */}
-        <section className='py-8 px-4'>
-          <div className='max-w-7xl mx-auto'>
-            <RidersGrid riders={mockRiders} />
-          </div>
+        <section className='py-8 px-4 max-w-7xl mx-auto flex flex-col gap-8'>
+          <RidersGrid riders={currentRiders} />
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
         </section>
       </main>
     </div>
