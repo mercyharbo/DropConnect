@@ -5,74 +5,6 @@ import { Pagination } from '@/components/ui/pagination'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
-interface Service {
-  name: string
-  description?: string
-}
-
-interface Rider {
-  id: string
-  name: string
-  image: string
-  description: string
-  successRate: number
-  phone: string
-  whatsapp: string
-  services: Service[]
-}
-
-// Mock data - replace with your actual data source
-const mockRiders: Rider[] = [
-  {
-    id: '1',
-    name: 'John Doe',
-    image: 'https://randomuser.me/api/portraits/men/1.jpg',
-    description:
-      'Experienced delivery rider with 5 years of service. Specializes in food and package delivery.',
-    successRate: 98,
-    phone: '+1234567890',
-    whatsapp: '+1234567890',
-    services: [
-      {
-        name: 'Food Delivery',
-        description: 'Quick and reliable food delivery service',
-      },
-      {
-        name: 'Package Delivery',
-        description: 'Secure package delivery with real-time tracking',
-      },
-      {
-        name: 'Bike Delivery',
-        description: 'Fast and efficient bike delivery service',
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    image: 'https://randomuser.me/api/portraits/women/1.jpg',
-    description:
-      'Professional rider with expertise in express deliveries and special handling.',
-    successRate: 95,
-    phone: '+1234567891',
-    whatsapp: '+1234567891',
-    services: [
-      {
-        name: 'Express Delivery',
-        description: 'Priority delivery service for urgent items',
-      },
-      {
-        name: 'Special Handling',
-        description: 'Careful handling of fragile and valuable items',
-      },
-      {
-        name: 'Bulk Delivery',
-        description: 'Efficient delivery of multiple items',
-      },
-    ],
-  },
-]
-
 const ITEMS_PER_PAGE = 6
 
 type Props = {
@@ -101,12 +33,33 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+async function getRiders() {
+  try {
+    const response = await fetch(
+      'https://drop-connect-backend.onrender.com/api/riders',
+      {
+        next: { revalidate: 60 },
+      }
+    )
+
+    if (!response.ok) {
+      return []
+    }
+
+    const data = await response.json()
+    return data
+  } catch {
+    return []
+  }
+}
+
 export default async function RidersPage({ searchParams }: Props) {
+  const riders = await getRiders()
   const currentPage = Number((await searchParams).page) || 1
-  const totalPages = Math.ceil(mockRiders.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(riders.length / ITEMS_PER_PAGE)
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
   const endIndex = startIndex + ITEMS_PER_PAGE
-  const currentRiders = mockRiders.slice(startIndex, endIndex)
+  const currentRiders = riders.slice(startIndex, endIndex)
 
   return (
     <div className='min-h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-slate-900 to-slate-800 text-white relative'>

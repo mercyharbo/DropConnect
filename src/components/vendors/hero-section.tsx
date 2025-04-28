@@ -1,21 +1,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Vendor } from '@/types/vendor'
 import { motion } from 'framer-motion'
 import { Filter, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-interface Vendor {
-  id: string
-  name: string
-  image: string
-  description: string
-  successRate: number
-  phone: string
-  whatsapp: string
-  priceRange?: 'budget' | 'mid' | 'premium'
-  deliveryTime?: 'fast' | 'standard' | 'scheduled'
-}
 
 interface HeroSectionProps {
   vendors: Vendor[]
@@ -27,17 +16,17 @@ export default function HeroSection({
   onFilteredVendors,
 }: HeroSectionProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('success')
   const [showFilters, setShowFilters] = useState(false)
-  const [priceRange, setPriceRange] = useState('all')
-  const [deliveryTime, setDeliveryTime] = useState('all')
+  const [priceRange, setPriceRange] = useState<string>('')
+  const [deliveryTime, setDeliveryTime] = useState<string>('')
+  const [sortBy, setSortBy] = useState<string>('')
 
   useEffect(() => {
-    let filteredVendors = [...vendors]
+    let filtered = [...vendors]
 
     // Apply search filter
     if (searchQuery) {
-      filteredVendors = filteredVendors.filter(
+      filtered = filtered.filter(
         (vendor) =>
           vendor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           vendor.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -45,144 +34,158 @@ export default function HeroSection({
     }
 
     // Apply price range filter
-    if (priceRange !== 'all') {
-      filteredVendors = filteredVendors.filter(
-        (vendor) => vendor.priceRange === priceRange
-      )
+    if (priceRange) {
+      filtered = filtered.filter((vendor) => {
+        const price = vendor.services?.[0]?.price || 0
+        switch (priceRange) {
+          case 'budget':
+            return price <= 1000
+          case 'mid':
+            return price > 1000 && price <= 5000
+          case 'premium':
+            return price > 5000
+          default:
+            return true
+        }
+      })
     }
 
     // Apply delivery time filter
-    if (deliveryTime !== 'all') {
-      filteredVendors = filteredVendors.filter(
-        (vendor) => vendor.deliveryTime === deliveryTime
-      )
+    if (deliveryTime) {
+      filtered = filtered.filter((vendor) => {
+        switch (deliveryTime) {
+          case 'fast':
+            return (
+              vendor.opening_hours.includes('24/7') ||
+              vendor.opening_hours.includes('Early')
+            )
+          case 'standard':
+            return vendor.opening_hours.includes('Standard')
+          case 'scheduled':
+            return vendor.opening_hours.includes('Scheduled')
+          default:
+            return true
+        }
+      })
     }
 
     // Apply sorting
-    filteredVendors.sort((a, b) => {
-      switch (sortBy) {
-        case 'success':
-          return b.successRate - a.successRate
-        case 'popularity':
-          // Assuming popularity is based on success rate for now
-          return b.successRate - a.successRate
-        case 'rating':
-          // Assuming rating is based on success rate for now
-          return b.successRate - a.successRate
-        case 'distance':
-          // Assuming distance is based on success rate for now
-          return b.successRate - a.successRate
-        default:
-          return 0
-      }
-    })
+    if (sortBy) {
+      filtered.sort((a, b) => {
+        switch (sortBy) {
+          case 'successRate':
+            return b.success_rate - a.success_rate
+          case 'priceLow':
+            return (a.services?.[0]?.price || 0) - (b.services?.[0]?.price || 0)
+          case 'priceHigh':
+            return (b.services?.[0]?.price || 0) - (a.services?.[0]?.price || 0)
+          default:
+            return 0
+        }
+      })
+    }
 
-    onFilteredVendors(filteredVendors)
+    onFilteredVendors(filtered)
   }, [
+    vendors,
     searchQuery,
-    sortBy,
     priceRange,
     deliveryTime,
-    vendors,
+    sortBy,
     onFilteredVendors,
   ])
 
   return (
-    <section className='pt-24 pb-12 px-4 text-center'>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className='max-w-3xl mx-auto space-y-8'
-      >
-        <div className='space-y-4'>
-          <h1 className='text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-100'>
-            Find Trusted Vendors
-          </h1>
-          <p className='text-xl text-orange-100/80 max-w-2xl mx-auto'>
-            Connect with trusted vendors in your area. Fresh food, groceries,
-            and more delivered to your doorstep.
-          </p>
+    <div className='space-y-6 xl:max-w-4xl lg:max-w-3xl md:max-w-2xl sm:max-w-xl mx-auto'>
+      <div className='flex flex-col sm:flex-row gap-4'>
+        <div className='relative flex-1'>
+          <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400' />
+          <input
+            type='text'
+            placeholder='Search vendors...'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className='w-full h-14 pl-10 pr-4 bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 focus:border-blue-500/50 focus:outline-none text-white placeholder:text-slate-400'
+          />
         </div>
-
-        {/* Search and Filter Section */}
-        <div className='flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto'>
-          <div className='relative flex-1'>
-            <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-200/50' />
-            <input
-              type='text'
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder='Search vendors by name or location...'
-              className='w-full h-14 pl-10 pr-4 rounded-lg bg-slate-800/50 border border-orange-500/20 text-white placeholder:text-orange-200/50 focus:outline-none focus:ring-2 focus:ring-orange-500/50'
-            />
-          </div>
-
-          <div className='flex gap-2 w-full sm:w-auto'>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className='flex-1 sm:w-[180px] h-14 rounded-lg bg-slate-800/50 border border-orange-500/20 text-white px-4 focus:outline-none focus:ring-2 focus:ring-orange-500/50'
-            >
-              <option value='success'>Success Rate</option>
-              <option value='popularity'>Popularity</option>
-              <option value='rating'>Rating</option>
-              <option value='distance'>Distance</option>
-            </select>
-
-            <Button
-              variant='outline'
-              className='h-14 bg-slate-800/50 border-orange-500/20 text-white hover:bg-orange-500/20'
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className='w-4 h-4 mr-2' />
-              Filters
-            </Button>
-          </div>
-        </div>
-
-        {/* Additional Filters Panel */}
-        {showFilters && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className='max-w-2xl mx-auto p-4 bg-slate-800/50 rounded-lg border border-orange-500/20'
+        <div className='flex gap-2 w-full sm:w-auto flex-1'>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className='h-14 px-4 bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 focus:border-blue-500/50 focus:outline-none text-white w-1/2 sm:w-auto'
           >
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-              <div>
-                <label className='block text-sm font-medium text-orange-100/70 mb-2'>
-                  Price Range
-                </label>
-                <select
-                  value={priceRange}
-                  onChange={(e) => setPriceRange(e.target.value)}
-                  className='w-full h-14 rounded-lg bg-slate-900/50 border border-orange-500/20 text-white px-4 focus:outline-none focus:ring-2 focus:ring-orange-500/50'
-                >
-                  <option value='all'>All Prices</option>
-                  <option value='budget'>Budget Friendly</option>
-                  <option value='mid'>Mid Range</option>
-                  <option value='premium'>Premium</option>
-                </select>
-              </div>
-              <div>
-                <label className='block text-sm font-medium text-orange-100/70 mb-2'>
-                  Delivery Time
-                </label>
-                <select
-                  value={deliveryTime}
-                  onChange={(e) => setDeliveryTime(e.target.value)}
-                  className='w-full h-14 rounded-lg bg-slate-900/50 border border-orange-500/20 text-white px-4 focus:outline-none focus:ring-2 focus:ring-orange-500/50'
-                >
-                  <option value='all'>Any Time</option>
-                  <option value='fast'>Fast (Under 30min)</option>
-                  <option value='standard'>Standard (30-60min)</option>
-                  <option value='scheduled'>Scheduled</option>
-                </select>
+            <option value=''>Sort by</option>
+            <option value='successRate'>Success Rate</option>
+            <option value='priceLow'>Price: Low to High</option>
+            <option value='priceHigh'>Price: High to Low</option>
+          </select>
+          <Button
+            variant='outline'
+            onClick={() => setShowFilters(!showFilters)}
+            className='h-14 flex items-center gap-2 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/50 text-white w-1/2 sm:w-auto'
+          >
+            <Filter className='w-4 h-4' />
+            Filters
+          </Button>
+        </div>
+      </div>
+
+      {showFilters && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className='bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 space-y-6'
+        >
+          <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+            <div>
+              <h3 className='text-sm font-medium text-slate-400 mb-2'>
+                Price Range
+              </h3>
+              <div className='flex flex-wrap gap-2'>
+                {['budget', 'mid', 'premium'].map((range) => (
+                  <button
+                    key={range}
+                    onClick={() =>
+                      setPriceRange(priceRange === range ? '' : range)
+                    }
+                    className={`px-3 py-1 rounded-full text-sm capitalize ${
+                      priceRange === range
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700/70'
+                    }`}
+                  >
+                    {range}
+                  </button>
+                ))}
               </div>
             </div>
-          </motion.div>
-        )}
-      </motion.div>
-    </section>
+
+            <div>
+              <h3 className='text-sm font-medium text-slate-400 mb-2'>
+                Delivery Time
+              </h3>
+              <div className='flex flex-wrap gap-2'>
+                {['fast', 'standard', 'scheduled'].map((time) => (
+                  <button
+                    key={time}
+                    onClick={() =>
+                      setDeliveryTime(deliveryTime === time ? '' : time)
+                    }
+                    className={`px-3 py-1 rounded-full text-sm capitalize ${
+                      deliveryTime === time
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700/70'
+                    }`}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </div>
   )
 }

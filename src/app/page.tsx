@@ -75,7 +75,7 @@ export default function HomePage() {
       <main className='relative z-10 flex-1 flex flex-col'>
         <section className='flex-1 flex flex-col items-center justify-center px-4 text-center py-12 sm:py-20'>
           <motion.div
-            className='max-w-4xl mx-auto space-y-6'
+            className='max-w-7xl mx-auto space-y-6'
             variants={containerVariants}
             initial='hidden'
             animate='visible'
@@ -96,7 +96,7 @@ export default function HomePage() {
             </motion.p>
 
             {/* Action Cards */}
-            <div className='grid sm:grid-cols-2 gap-6 mt-12 w-full max-w-2xl mx-auto'>
+            <div className='grid sm:grid-cols-2 gap-6 mt-12 w-full max-w-7xl mx-auto'>
               <Link href='/riders' className='block'>
                 <motion.div
                   className='group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-1 shadow-lg'
