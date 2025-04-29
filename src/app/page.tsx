@@ -72,89 +72,87 @@ export default function HomePage() {
       </div>
 
       {/* Hero Section */}
-      <main className='relative z-10 flex-1 flex flex-col'>
-        <section className='flex-1 flex flex-col items-center justify-center px-4 text-center py-12 sm:py-20'>
-          <motion.div
-            className='max-w-7xl mx-auto space-y-6'
-            variants={containerVariants}
-            initial='hidden'
-            animate='visible'
+      <main className='relative z-10 flex-1 flex flex-col py-10 px-5'>
+        <motion.div
+          className='max-w-4xl mx-auto space-y-6 flex flex-col justify-center items-center gap-3 m-auto text-center'
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
+          <motion.h1
+            className='text-4xl/loose max-w-3xl sm:text-2xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 leading-tight'
+            variants={itemVariants}
           >
-            <motion.h1
-              className='text-3xl sm:text-2xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 leading-tight'
-              variants={itemVariants}
-            >
-              Connect with Trusted Delivery & Home Service Experts
-            </motion.h1>
+            Connect with Trusted Delivery & Home Service Experts
+          </motion.h1>
 
-            <motion.p
-              className='text-xl sm:text-2xl text-blue-100/80 max-w-2xl mx-auto'
-              variants={itemVariants}
-            >
-              Instantly find reliable riders for your deliveries and skilled
-              vendors for all your home service needs.
-            </motion.p>
+          <motion.p
+            className='text-xl sm:text-2xl text-blue-100/80 max-w-2xl mx-auto'
+            variants={itemVariants}
+          >
+            Instantly find reliable riders for your deliveries and skilled
+            vendors for all your home service needs.
+          </motion.p>
 
-            {/* Action Cards */}
-            <div className='grid sm:grid-cols-2 gap-6 mt-12 w-full max-w-7xl mx-auto'>
-              <Link href='/riders' className='block'>
+          {/* Action Cards */}
+          <div className='grid sm:grid-cols-2 gap-6 w-full max-w-7xl mx-auto'>
+            <Link href='/riders' className='block'>
+              <motion.div
+                className='group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-1 shadow-lg'
+                variants={cardVariants}
+                custom={0}
+                initial='hidden'
+                animate='visible'
+                whileHover='hover'
+              >
                 <motion.div
-                  className='group relative cursor-pointer overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 p-1 shadow-lg'
-                  variants={cardVariants}
-                  custom={0}
-                  initial='hidden'
-                  animate='visible'
-                  whileHover='hover'
-                >
-                  <motion.div
-                    className='absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 opacity-0'
-                    animate={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
-                    <Package className='h-12 w-12 mb-4 text-blue-300' />
-                    <h3 className='text-xl font-bold mb-2'>Find a Rider</h3>
-                    <p className='text-blue-100/70 mb-4 text-sm'>
-                      Quick delivery services at your fingertips
-                    </p>
-                    <Button className='bg-blue-600 hover:bg-blue-700 text-white w-full'>
-                      Get Started
-                    </Button>
-                  </div>
-                </motion.div>
-              </Link>
+                  className='absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 opacity-0'
+                  animate={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
+                  <Package className='h-12 w-12 mb-4 text-blue-300' />
+                  <h3 className='text-xl font-bold mb-2'>Find a Rider</h3>
+                  <p className='text-blue-100/70 mb-4 text-sm'>
+                    Quick delivery services at your fingertips
+                  </p>
+                  <Button className='bg-blue-600 hover:bg-blue-700 text-white w-full'>
+                    Get Started
+                  </Button>
+                </div>
+              </motion.div>
+            </Link>
 
-              <Link href='/vendors' className='block'>
+            <Link href='/vendors' className='block'>
+              <motion.div
+                className='group relative overflow-hidden cursor-pointer rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-1 shadow-lg'
+                variants={cardVariants}
+                custom={1}
+                initial='hidden'
+                animate='visible'
+                whileHover='hover'
+              >
                 <motion.div
-                  className='group relative overflow-hidden cursor-pointer rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-1 shadow-lg'
-                  variants={cardVariants}
-                  custom={1}
-                  initial='hidden'
-                  animate='visible'
-                  whileHover='hover'
-                >
-                  <motion.div
-                    className='absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-0'
-                    animate={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
-                    <Store className='h-12 w-12 mb-4 text-emerald-300' />
-                    <h3 className='text-xl font-bold mb-2'>Find a Vendor</h3>
-                    <p className='text-emerald-100/70 mb-4 text-sm'>
-                      Home services from trusted providers
-                    </p>
-                    <Button className='bg-emerald-600 hover:bg-emerald-700 text-white w-full'>
-                      Explore Services
-                    </Button>
-                  </div>
-                </motion.div>
-              </Link>
-            </div>
-          </motion.div>
-        </section>
+                  className='absolute inset-0 bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-0'
+                  animate={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className='relative bg-slate-900/50 backdrop-blur-sm rounded-lg p-6 h-full flex flex-col items-center justify-center'>
+                  <Store className='h-12 w-12 mb-4 text-emerald-300' />
+                  <h3 className='text-xl font-bold mb-2'>Find a Vendor</h3>
+                  <p className='text-emerald-100/70 mb-4 text-sm'>
+                    Home services from trusted providers
+                  </p>
+                  <Button className='bg-emerald-600 hover:bg-emerald-700 text-white w-full'>
+                    Explore Services
+                  </Button>
+                </div>
+              </motion.div>
+            </Link>
+          </div>
+        </motion.div>
       </main>
     </div>
   )

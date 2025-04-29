@@ -5,12 +5,6 @@ import { Check, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface Service {
-  name: string
-  image: string
-  price: number
-}
-
 interface Rider {
   id: number
   name: string
@@ -18,7 +12,7 @@ interface Rider {
   service_type: string
   verified: boolean
   description: string
-  services: Service[]
+  services: string[]
   opening_hours: string
   working_days: string[]
   location: string
@@ -41,7 +35,7 @@ export default function RidersGrid({ riders }: RidersGridProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-colors'
+            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-3 hover:border-blue-500/50 transition-colors'
           >
             <div className='relative h-48'>
               <Image
@@ -50,12 +44,18 @@ export default function RidersGrid({ riders }: RidersGridProps) {
                 fill
                 className='object-cover group-hover:scale-105 transition-transform duration-300'
               />
-              {rider.verified && (
-                <div className='absolute top-4 right-4 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1'>
-                  <Check className='w-4 h-4' />
-                  Verified
-                </div>
-              )}
+              <div className='absolute top-4 right-4'>
+                {rider.verified ? (
+                  <div className='bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1'>
+                    <Check className='w-4 h-4' />
+                    Verified
+                  </div>
+                ) : (
+                  <div className='bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1'>
+                    Not Verified
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className='p-6 space-y-4'>
@@ -86,16 +86,14 @@ export default function RidersGrid({ riders }: RidersGridProps) {
               </p>
 
               <div className='flex flex-wrap gap-2'>
-                {rider.services
-                  ?.slice(0, 3)
-                  .map((service: Service, index: number) => (
-                    <span
-                      key={index}
-                      className='text-xs bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full'
-                    >
-                      {service.name}
-                    </span>
-                  ))}
+                {rider.services?.slice(0, 3).map((service, index: number) => (
+                  <span
+                    key={index}
+                    className='text-xs bg-blue-500/10 text-blue-400 px-2 py-1 rounded-full'
+                  >
+                    {service}
+                  </span>
+                ))}
                 {rider.services?.length > 3 && (
                   <span className='text-xs bg-slate-700/50 text-slate-400 px-2 py-1 rounded-full'>
                     +{rider.services.length - 3} more

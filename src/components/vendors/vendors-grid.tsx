@@ -19,7 +19,7 @@ export default function VendorsGrid({ vendors }: VendorsGridProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-blue-500/50 transition-colors'
+            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-3 hover:border-blue-500/50 transition-colors'
           >
             <div className='relative h-48'>
               <Image

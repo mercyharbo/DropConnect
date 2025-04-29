@@ -165,8 +165,8 @@ export function Navbar() {
                       href={route.href}
                       className={`block rounded-md text-lg font-medium ${
                         pathname === route.href
-                          ? 'bg-blue-600 text-white px-4 py-2'
-                          : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                          ? 'bg-blue-600 text-white p-2'
+                          : 'text-slate-300 hover:p-2 hover:bg-slate-800 hover:text-white'
                       }`}
                       onClick={() => setIsOpen(false)}
                     >

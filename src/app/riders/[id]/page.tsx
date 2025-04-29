@@ -3,12 +3,6 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
-interface Service {
-  name: string
-  image: string
-  price: number
-}
-
 type Props = {
   params: Promise<{ id: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -113,12 +107,12 @@ export default async function RiderPage({ params }: Props) {
                 </div>
 
                 <div className='flex flex-wrap gap-2'>
-                  {rider.services?.map((service: Service, index: number) => (
+                  {rider.services?.map((service: string, index: number) => (
                     <span
                       key={index}
                       className='bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm'
                     >
-                      {service.name}
+                      {service}
                     </span>
                   ))}
                 </div>

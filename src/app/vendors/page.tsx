@@ -67,7 +67,7 @@ export default async function VendorsPage({ searchParams }: Props) {
       </div>
 
       {/* Main Content */}
-      <main className='relative z-10 flex-1 flex flex-col gap-8 py-8 w-full px-2 sm:px-4 max-w-7xl sm:mx-auto'>
+      <main className='relative z-10 flex-1 flex flex-col gap-8 py-8 w-full px-5 max-w-7xl sm:mx-auto'>
         <VendorsContent vendors={currentVendors} />
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </main>

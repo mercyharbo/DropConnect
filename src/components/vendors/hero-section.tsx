@@ -96,9 +96,9 @@ export default function HeroSection({
   ])
 
   return (
-    <div className='space-y-6 xl:max-w-4xl lg:max-w-3xl md:max-w-2xl sm:max-w-xl mx-auto'>
-      <div className='flex flex-col sm:flex-row gap-4'>
-        <div className='relative flex-1'>
+    <div className='space-y-6 flex flex-col items-center gap-5 xl:max-w-4xl lg:max-w-3xl md:max-w-2xl sm:max-w-xl mx-auto'>
+      <div className='flex flex-col w-full items-center justify-center sm:flex-row gap-4'>
+        <div className='relative mx-auto flex justify-center items-center gap-5 w-full'>
           <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400' />
           <input
             type='text'
@@ -135,7 +135,7 @@ export default function HeroSection({
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className='bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-slate-700/50 space-y-6'
+          className='bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 w-full border border-slate-700/50 space-y-6'
         >
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
             <div>
