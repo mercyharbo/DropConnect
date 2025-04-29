@@ -12,16 +12,16 @@ interface VendorsGridProps {
 
 export default function VendorsGrid({ vendors }: VendorsGridProps) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr'>
       {vendors.map((vendor) => (
         <Link href={`/vendors/${vendor.id}`} key={vendor.id}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-3 hover:border-blue-500/50 transition-colors'
+            className='group bg-slate-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-slate-700/50 hover:border-3 hover:border-blue-500/50 transition-colors h-full flex flex-col'
           >
-            <div className='relative h-48'>
+            <div className='relative h-48 flex-shrink-0'>
               <Image
                 src={vendor.image}
                 alt={vendor.name}
@@ -36,7 +36,7 @@ export default function VendorsGrid({ vendors }: VendorsGridProps) {
               )}
             </div>
 
-            <div className='p-6 space-y-4'>
+            <div className='p-6 space-y-4 flex-1 flex flex-col'>
               <div className='flex flex-col gap-2'>
                 <div className='flex items-start justify-between gap-2'>
                   <div className='min-w-0 flex-1'>
@@ -53,7 +53,7 @@ export default function VendorsGrid({ vendors }: VendorsGridProps) {
                 </div>
               </div>
 
-              <p className='text-sm text-slate-300 line-clamp-2'>
+              <p className='text-sm text-slate-300 line-clamp-2 flex-1'>
                 {vendor.description}
               </p>
 
